@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utg-8"/>
+<meta http-equiv="X-UA-Compatiable" content"IE=edge"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<script type="text/script" src="https://code.jquery.com/jquery-3.1.1.js"></script>
+<script type="text/script">
+   $(document).ready(function(){
+      
+   });
+</script>
+</head>
+<body>
+<div class="container">
+   <button class="btn btn-primary" id="btn1"></button>
+   <button class="btn btn-primary" id="btn2"></button>
+   <p>
+          这里我设置了两个按钮，前面的类名是一样的，当我用jq选中第一个按钮时，我给btn1绑定的事件执行时，同时会执行btn2绑定的事件。在webstrom里的视图
+      发现选择的id是一样的，于是我创建了个btn1对象:
+      <code> var obj = $('#btn1'); </code>
+         我试着弹出它有多少个：
+      <code> alert( obj.length ); </code>
+         结果发现始终为1，难道选择错了，之前明明执行了两个事件：
+      <code> alert( typeof obj ); </code>
+         其实是object对象，究竟怎么回事
+      <code> alert( obj ); </code>
+         结果弹出了的字符串：object,object。说明确实选中了两个对象，so 以后我们可以利用弹出对象本身来判断有多少个对象！
+   </p>
+</div>
+</body>
+</html>
