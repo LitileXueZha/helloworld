@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.css"/>
+    <script type="text/javascript" src="bootstrap/js/jquery-3.1.0.js"></script>
+    <script type="text/javascript" src="bootstrap/js/bootstrap.js"></script>
+    <style>
+
+    </style>
+    <script type="text/javascript">
+        function fang1() {
+            var person = {
+                name : '帅气涛'
+            };
+            person.age = 21;
+            var x = Object.isExtensible(person);
+            var s1 = '未设置之前：'+ person.age +'\n可扩展：'+ x +'\n';
+            Object.preventExtensions(person);
+            x = Object.isExtensible(person);
+            person.sex = '男';
+            alert(s1 +'Object.preventExtensions(person);\n设置之后：'+ person.sex +'\n可扩展：'+ x);
+        }  //  级别1，不可扩展
+        function fang2() {
+            var person = {
+                name: '帅气涛'
+            };
+            var x = Object.isSealed(person);
+            var s1 = '未设置之前：'+ person.name +'\n已密封：'+ x +'\n';
+            Object.seal(person);
+            x = Object.isSealed(person);
+            delete person.name;
+            person.name = '战不败的象征';
+            alert(s1 +'Object.seal(person);\n设置之后：'+ person.name + '\n已密封：'+ x);
+        }  //  级别2，密封
+        function fang3() {
+            var person = {
+                name: '帅气涛'
+            };
+            var x = Object.isFrozen(person);
+            var s1 = '未设置之前：'+ person.name + '\n冻结：'+ x +'\n';
+            Object.freeze(person);
+            x = Object.isFrozen(person);
+            person.name = '战不败的象征';
+            delete person.name;
+            alert(s1 +'Object.freeze(person);\n设置之后：'+ person.name +'\n冻结：'+ x);
+        }  //  级别3，冻结
+    </script>
+</head>
+<body>
+<div class="container">
+    <h2 align="center">三个级别</h2>
+    <ul class="list-group">
+        <li class="list-group-item">
+            <blockquote>不可扩展对象，Object.preventExtensions()</blockquote>
+            <button class="btn btn-success btn-sm" onclick="fang1()">查看</button>
+            <pre>
+                function fang1() {
+                    var person = {
+                        name : '帅气涛'
+                    };
+                    person.age = 21;
+                    var x = Object.isExtensible(person);
+                    var s1 = '未设置之前：'+ person.age +'\n可扩展：'+ x +'\n';
+                    <strong><i>Object.preventExtensions(person);</i></strong>
+                    x = Object.isExtensible(person);
+                    person.sex = '男';
+                    alert(s1 +'Object.preventExtension(person);\n设置之后：'+ person.sex +'\n可扩展：'+ x);
+                }  //  级别1，不可扩展</pre>
+            <p>默认情况下，所有对象都可以扩展。也就是说，任何时候都能给对象添加属性和方法。设置之后是添加不了的</p>
+        </li>
+        <li class="list-group-item">
+            <blockquote>密封的对象，Object.seal()</blockquote>
+            <button class="btn btn-success btn-sm" onclick="fang2()">查看</button>
+            <pre>
+                function fang2() {
+                    var person = {
+                        name: '帅气涛'
+                    };
+                    var x = Object.isSealed(person);
+                    var s1 = '未设置之前：'+ person.name +'\n已密封：'+ x +'\n';
+                    Object.seal(person);
+                    x = Object.isSealed(person);
+                    delete person.name;
+                    person.name = '战不败的象征';
+                    alert(s1 +'Object.seal(person);\n设置之后：'+ person.name + '\n已密封：'+ x);
+                }  //  级别2，密封            </pre>
+            <p>密封的对象不可扩展，是级别一的升级版。不能删除，但可以修改；级别一只是不能添加，可以删除和修改</p>
+        </li>
+        <li class="list-group-item">
+            <blockquote>冻结对象，Object.freeze()</blockquote>
+            <button class="btn btn-success btn-sm" onclick="fang3()">查看</button>
+            <pre>
+                function fang3() {
+                    var person = {
+                        name: '帅气涛'
+                    };
+                    var x = Object.isFrozen(person);
+                    var s1 = '未设置之前：'+ person.name + '\n冻结：'+ x +'\n';
+                    Object.freeze(person);
+                    x = Object.isFrozen(person);
+                    person.name = '战不败的象征';
+                    delete person.name;
+                    alert(s1 +'Object.freeze(person);\n设置之后：'+ person.name +'\n冻结：'+ x);
+                }  //  级别3，冻结</pre>
+            <p>最高级别，sss，一旦设置，那么关于这个对象的属性和方法操作(删除、添加、修改)都没有用，只能查(看)</p>
+        </li>
+    </ul>
+</div>
+</body>
+</html>
