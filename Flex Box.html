@@ -56,8 +56,12 @@
             cursor: pointer;
             z-index: -999;
         }
+        #select optgroup{
+            border-top: 1px dotted black;
+        }
         #search option{
             text-align: center;
+            padding: 0;
         }
         /*  选择框样式 -- ^  */
         /*  设置 -- v  */
@@ -72,6 +76,7 @@
             position: relative;
         }
         .setting-container{
+            display: none;
             opacity: 0;
             width: 100%;
             height: 100%;
@@ -165,9 +170,34 @@
             border-color: black;
         }
         /*  输入框 -- ^  */
+        /*  提示信息：翻墙  -- v  */
+        #info{
+            position: absolute;
+            left: -152px;
+            top: -70px;
+            width: 180px;
+            text-align: left;
+            padding: 10px;
+            background: rgba(0, 0, 238, 0.71);
+            -webkit-border-radius: 4px;
+            -moz-border-radius: 4px;
+            border-radius: 4px;
+            color: white;
+            border-bottom-right-radius: 0;
+        }
+        #info::after{
+            content: ' ';
+            position: absolute;
+            right: 0;
+            bottom: -10px;
+            border-top: 10px solid rgba(0, 0, 238, 0.71);
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+        }
+        /*  提示信息：翻墙  -- ^  */
         /*  建议内容 -- v  */
         #search input:focus+#advance{
-            height: 174px;
+            height: 186px;
             transition: 1.5s ease-in;
         }
         #advance{
@@ -188,6 +218,7 @@
             text-decoration: none;
             color: white;
             background: black;
+            transition: 1s;
         }
         #advance>li:nth-last-child(1) a{
             -webkit-border-bottom-left-radius: 3px;
@@ -215,60 +246,280 @@
             right: 0;
         }
         /*  按钮 -- ^  */
+        #img-container{
+            width: 90%;
+            margin: 20px 5% 0 5%;
+            text-align: center;
+        }
+        #img-container div{
+            width: 33%;
+            float: left;
+            margin: 1px;
+        }
+        #img-container img{
+            width: 100%;
+        }
+        /*  图片显示区  */
+        #top{
+            position: absolute;
+            top: -100px;
+        }
+        #tool{
+            width: 100%;
+            margin-bottom: 20px;
+            clear: both;
+            position: relative;
+            -webkit-border-radius: 4px;
+            -moz-border-radius: 4px;
+            border-radius: 4px;
+            display: none;
+        }
+        #tool button{
+            width: 100%;
+            height: 40px;
+            font-size: 14px;
+            background-color: #F0F0F0;
+            cursor: pointer;
+            border: 1px solid rgba(0, 0, 238, 0.71);
+        }
+        #tool a{
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 40px;
+            height: 40px;
+            display: inline-block;
+            vertical-align: top;
+            line-height: 40px;
+            font-size: 14px;
+            background-color: rgba(0, 0, 238, 0.71);
+            color: white;
+        }
+        #tool>i{
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 40px;
+            height: 40px;
+            line-height: 40px;
+            font-size: 14px;
+        }
+        #tool:hover>i{
+            -webkit-transform: rotate(1500deg);
+            -moz-transform: rotate(1500deg);
+            -ms-transform: rotate(1500deg);
+            -o-transform: rotate(1500deg);
+            transform: rotate(1500deg);
+            -webkit-transition: 10s;
+            -moz-transition: 10s;
+            -ms-transition: 10s;
+            -o-transition: 10s;
+            transition: 10s;
+        }
+
+        @media screen and (max-width: 992px){
+            #img-center{
+                display: none;
+            }
+            #img-container div{
+                width: 49%;
+            }
+        }
     </style>
     <script>
         $(document).ready(function () {
+            $('#tag').val('');
+            $('#word').val('');
+            var currPn = 0;
+            //  重载时重置表单
             $('#setting').click(function () {
-                $('.setting-container').css('z-index', 9999).animate({
+                $('.setting-container').show().css('z-index', 9999).animate({
                     opacity: 1
                 }, 1000);
                 $('#search').animate({
                     opacity: 0.1
                 }, 1000);
+                $('body').css('overflow-y', 'hidden');
             });
             $('.action').children('button').click(function () {
                 $('.setting-container').animate({
                     opacity: 0
                 }, 1000, function () {
-                    $(this).css('z-index', -1)
+                    $(this).css('z-index', -1).hide();
                 });
                 $('#search').animate({
                     opacity: 1
                 }, 1000);
+                $('body').css('overflow-y', 'visible');
             });
+            //  设置面板的弹出及隐藏
+            var container = $('#img-container')[0],
+                left = $('#img-left')[0],
+                center = $('#img-center')[0],
+                right = $('#img-right')[0],
+                leftH = 0,
+                centerH = 1,
+                rightH = 2;
+            $('#search-btn').click(function () {
+                $('#img-container').find('img').remove();
+                currPn = 0;
+                searchImage();
+            });
+            //  点击搜索按钮加载图片
+            
+            $('#tool').children('button').click(function () {
+                searchImage();
+                currPn ++;  //  当前页头
+            });
+            //  加载更多功能
+
+            function searchImage() {
+                var rn = $('#rn').val(),
+                    pn = $('#pn').val();
+                if($('#tag').val() == ''){
+                    var s = $.trim($('#word').val());
+                    if(s !== ''){
+                        console.log('开始搜索'+ s);
+                        //  这里关键词搜索差不多，国内没有可用的API，flickr需要翻墙
+                        //  但是我这网速慢，这对于图片加载来说将是致命的，故不再。。。
+                    }
+                }  //  翻墙搜索
+                else{
+                    var s1 = $('#tag').val();
+                    var s2 = $('option[value="'+ s1 +'"]').parent().attr('label');
+                    var type = 'share_url';
+                    if(s2 === '美女'){
+                        type = 'obj_url';
+                    }
+                    $.ajax({
+                        url: 'getBaiduImage.php',
+                        type: 'get',
+                        data: {
+                            tag1: s2,
+                            tag2: s1,
+                            rn: rn,
+                            pn: pn
+                        },
+                        dataType: 'json',
+                        success: function (data) {
+                            var arr = [];
+                            if($('#img-center').css('display') === 'block'){
+                                arr = [{num: leftH, so: 'left'}, {num: centerH, so: 'center'}, {num: rightH, so: 'right'}];
+                            } else{
+                                arr = [{num: leftH, so: 'left'}, {num: rightH, so: 'right'}]
+                            }
+                            for(var i=0,len=data.data.length-1;i<len;i++){
+                                var img = document.createElement('img');
+                                img.src = data.data[i][type];
+                                img.onload = function () {
+                                    arr = arr.sort(function (v1, v2) {
+                                        return v1.num - v2.num;
+                                    });
+                                    switch(arr[0]['so']){
+                                        case 'left':
+                                            left.appendChild(this);
+                                            leftH += parseInt(this.height);
+                                            arr[0]['num'] = leftH;
+                                            break;
+                                        case 'right':
+                                            right.appendChild(this);
+                                            rightH += parseInt(this.height);
+                                            arr[0]['num'] = rightH;
+                                            break;
+                                        default:
+                                            center.appendChild(this);
+                                            centerH += parseInt(this.height);
+                                            arr[0]['num'] = centerH;
+                                            break;
+                                    }
+                                };
+                            }
+                        }
+                    });
+                }  //  分类搜索
+            }  //  搜索函数,
+
+            var x = window.innerHeight || document.documentElement.clientHeight;
+            var isExistTool = false;
+            window.onscroll = function () {
+                if(this.scrollY >= (parseInt($('html').height()) - x-100)){
+                    if(isExistTool){}else{
+                        $('#tool').show();
+                        isExistTool = true;
+                    }
+                }
+            };
+            //  滚动到顶部加载工具条
+
+            $('#tag').change(function () {
+                var s1 = $(this).val();
+                if(s1){
+                    var s2 = $('option[value="'+ s1 +'"]').parent().attr('label');
+                    $('#word').val(s2 +' '+ s1);
+                    $('#info').hide();
+                } else{
+                    $('#word').val('').focus();
+                    $('#info').show();
+                }
+            });
+            //  改变输入控件当分类搜索时
         });
     </script>
 </head>
 <body>
+<hr id="top"/>
 <div class="setting-container">
     <div class="setting-panel">
         <div class="number">
             <i class="fa fa-tags" title="从第几页开始"></i>
             <span class="annotation">页头</span>
-            <input type="number" value="1">
+            <input type="number" value="1" id="pn">
         </div>
         <div class="number">
             <i class="fa fa-tags" title="每次搜索多少张"></i>
             <span class="annotation">页数</span>
-            <input type="number" value="30">
+            <input type="number" id="rn" value="30">
         </div>
         <br/><br/><br/><br/><br/><br/><br/>
         <div class="action">
-            <button><i class="fa fa-check"></i></button><button><i class="fa fa-remove"></i></button>
+            <button><i class="fa fa-check"></i></button><button title="重置搜索项"><i class="fa fa-remove"></i></button>
         </div>
     </div>
 </div>
 <div id="search">
     <div id="select">
-        <select>
-            <option value="">选择</option>
-            <option value="">美女</option>
-            <option value="">壁纸</option>
-            <option value="">搞笑</option>
-            <option value="">动漫</option>
-            <option value="">宠物</option>
-            <option value="">摄影</option>
-            <option value="">设计</option>
+        <select id="tag">
+            <option value="">分类</option>
+            <optgroup label="美女">
+                <option value="古装">古装</option>
+                <option value="校花">校花</option>
+                <option value="清新">清新</option>
+                <option value="性感">性感</option>
+            </optgroup>
+            <optgroup label="壁纸">
+                <option value="风景">风景</option>
+                <option value="星空">星空</option>
+                <option value="动物">动物</option>
+                <option value="电脑">电脑</option>
+            </optgroup>
+            <optgroup label="搞笑">
+                <option value="狗狗">狗狗</option>
+                <option value="表情">表情</option>
+                <option value="配图">配图</option>
+                <option value="动态">动态</option>
+            </optgroup>
+            <optgroup label="摄影">
+                <option value="意境">意境</option>
+                <option value="大师">大师</option>
+                <option value="城市">城市</option>
+                <option value="爱情">爱情</option>
+            </optgroup>
+            <optgroup label="设计">
+                <option value="logo">logo</option>
+                <option value="创意">创意</option>
+                <option value="包装">包装</option>
+                <option value="平面">平面</option>
+            </optgroup>
         </select>
         <i class="fa fa-sort"></i>
     </div>
@@ -276,27 +527,30 @@
         <i class="fa fa-cog"></i>
     </a>
     <div id="input">
-        <input type="text" placeholder="关键词"/>
+        <input type="text" placeholder="关键词" id="word"/>
         <ul id="advance">
-            <li><a href=""><i class="fa fa-tag"></i>&nbsp;&nbsp;&nbsp;超炫酷科技</a></li>
-            <li><a href="">
-                <i class="fa fa-tag"></i>
-            </a></li>
-            <li><a href="">
-                <i class="fa fa-tag"></i>
-            </a></li>
-            <li><a href="">
-                <i class="fa fa-tag"></i>
-            </a></li>
-            <li><a href="">
-                <i class="fa fa-tag"></i>
-            </a></li>
-            <li><a href="">
-                <i class="fa fa-tag"></i>
-            </a></li>
+            <li><a href="javascript: void(0)"><i class="fa fa-tag"></i>&nbsp;&nbsp;&nbsp;超炫酷科技</a></li>
+            <li><a href="javascript: void(0)"><i class="fa fa-tag"></i>&nbsp;&nbsp;&nbsp;山水</a></li>
+            <li><a href="javascript: void(0)"><i class="fa fa-tag"></i>&nbsp;&nbsp;&nbsp;宅男女神</a></li>
+            <li><a href="javascript: void(0)"><i class="fa fa-tag"></i>&nbsp;&nbsp;&nbsp;火</a></li>
+            <li><a href="javascript: void(0)"><i class="fa fa-tag"></i>&nbsp;&nbsp;&nbsp;电脑壁纸</a></li>
+            <li><a href="javascript: void(0)"><i class="fa fa-tag"></i>&nbsp;&nbsp;&nbsp;刘亦菲</a></li>
         </ul>
-        <button><i class="fa fa-search"></i></button>
+        <button id="search-btn">
+            <i class="fa fa-search"></i>
+            <span id="info">正在关键词搜索，需要<strong>翻墙</strong>！或者选择分类搜索</span>
+        </button>
     </div>
+</div>
+<div id="img-container">
+    <div id="img-left"></div>
+    <div id="img-center"></div>
+    <div id="img-right"></div>
+    <p id="tool">
+        <button>加载更多</button>
+        <i class="fa fa-spinner"></i>
+        <a href="#top"><i class="fa fa-long-arrow-up"></i></a>
+    </p>
 </div>
 </body>
 </html>
