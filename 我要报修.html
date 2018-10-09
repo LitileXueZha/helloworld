@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>我要报修</title>
+    <link rel="stylesheet" href="jquery+php/css/bootstrap.min.css"/>
+    <script type="text/javascript" src="jquery+php/js/jquery-3.1.0.js"></script>
+    <script type="text/javascript" src="jquery+php/js/bootstrap.min.js"></script>
+    <style>
+        hr{ margin: 0;border-color: blue; }
+        textarea{ resize: none }
+        #nav{
+            width: 150px;
+            height: 100%;
+            border-right: 1px solid blue;
+        }
+        #navL{
+            list-style: none;
+        }
+        #navL li{
+            text-align: center;
+            padding: 2%;
+        }
+        /* 以上为导航部分 */
+        #form{
+            position: absolute;
+            left: 50px;
+            top: 0;
+            width: 100%;
+        }
+        #form>table{
+            border: 1px solid rgba(0, 0, 0, 0.36);
+        }
+        #form>table tbody tr td{
+            padding: 5px;
+        }
+        #form>table tr td:nth-child(1){
+            padding-left: 30px;
+            text-align: right;
+        }
+        #tes{
+            width: 200px;
+            height: 200px;
+            background: black;
+        }
+    </style>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var d = document.getElementById('tes');
+            tes.style.transform = 'rotate(300deg)';
+            tes.style.transition = '10s';
+            var D = new Date();
+            $('time').text(D.getFullYear()+'年'+(D.getMonth()+1)+'月'+D.getDay()+'号');
+        });
+    </script>
+</head>
+<body>
+<header>
+    <h3 style="white-space: pre">
+        中国移动通信
+        <small>  CHINA    MOBILE</small> | 中国移动维修淮南分公司</h3>
+    <p style="text-indent: 5em;margin: 0;text-align: center">欢迎，XXX!</p>
+</header>
+<hr/>
+<div id="body" style="position: relative">
+    <div id="nav">
+        <ul id="navL">
+            <li><h3 align="left"><span class="glyphicon glyphicon-th-large"></span> 首页</h3></li>
+            <li>我的工单</li>
+            <li>我要报修</li>
+            <li>结果验收</li>
+        </ul>
+    </div>
+    <form id="form">
+        <table align="center">
+            <caption><h4 align="center">请填写你的维修需求</h4></caption>
+            <tbody>
+            <tr>
+                <td>所在部门：</td>
+                <td colspan="2">市场部</td>
+            </tr>
+            <tr>
+                <td>报修时间：</td>
+                <td width="250"><time></time></td>
+                <td style="padding-left: 25px">维修详细需求</td>
+            </tr>
+            <tr>
+                <td>联系电话：</td>
+                <td><input type="text" class="form-control" name="phone" placeholder="电话号码"/></td>
+                <td rowspan="6" style="padding: 0 30px 0 25px">
+                    <textarea class="form-control" name="pairRequest" placeholder="(不能超过两百字)" maxlength="200" cols="40" rows="18"></textarea>
+                </td>
+            </tr>
+            <tr>
+                <td>联系人：</td>
+                <td><input type="text" class="form-control" name="man"/></td>
+            </tr>
+            <tr>
+                <td>维修地点：</td>
+                <td><input type="text" class="form-control" name="place"/></td>
+            </tr>
+            <tr>
+                <td>期望完成时间：</td>
+                <td>
+                    <select id="year" name="year">
+                        <option value="2011">2011</option>
+                        <option value="2012">2012</option>
+                        <option value="2016">2016</option>
+                    </select>
+                    <label for="month">年</label>
+                    <select id="month" name="mouth">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="5">5</option>
+                    </select>
+                    <label for="day">月</label>
+                    <select id="day" name="day">
+                        <option value="12">12</option>
+                        <option value="2">2</option>
+                        <option value="30">30</option>
+                    </select>
+                    <label for="year">日</label>
+                </td>
+            </tr>
+            <tr>
+                <td>维修类别：</td>
+                <td>
+                    <select class="form-control" name="type">
+                        <option class="form-control" name="1">综合零星维修</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td style="vertical-align: top">注意事项：</td>
+                <td>
+                    <textarea class="form-control" name="notice" rows="5"></textarea>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2"> <button class="btn btn-danger" type="reset">重置</button></td>
+                <td> <button class="btn btn-primary" type="submit">提交</button></td>
+            </tr>
+            </tbody>
+        </table>
+    </form>
+</div>
+<div id="tes"></div>
+</body>
+</html>

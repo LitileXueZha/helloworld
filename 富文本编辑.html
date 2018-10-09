@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>富文本编辑</title>
+    <!--<link href="//cdn.bootcss.com/bootstrap/4.0.0-alpha/css/bootstrap.css" rel="stylesheet">-->
+    <!--<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">-->
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.css">
+    <!--<script type="text/javascript" src="jquery+php/js/jquery-3.1.0.js"></script>-->
+    <!--<script type="text/javascript" src="jquery+php/js/bootstrap.min.js"></script>-->
+    <style>
+        body{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        #left{
+            width: 50%;
+            float: left;
+            padding: 1%;
+        }
+        #right{
+            width: 50%;
+            float: left;
+            padding: 1%;
+        }
+        #fr1{
+            width: 100%;
+            padding: 5px;
+            height: 300px;
+            border: 1px solid black;
+        }
+        #fr2{
+            width: 90%;
+            padding: 1%;
+            margin-top: 10px;
+            height: 300px;
+            border: 1px solid black;
+        }
+        .shuru-group{
+            width: 0;
+            height: 30px;
+            float: left;
+            position: relative;
+            overflow: hidden;
+        }
+        .shuru{
+            height: 30px;
+            padding: 0;
+            width: 60px;
+            border: none;
+            background: black;
+            color: white;
+            text-align: center;
+        }
+        .shuru:focus{
+            border: 1px solid white;
+        }
+        .shuru-group div{
+            position: absolute;
+            height: 15px;
+            cursor: pointer;
+            background: black;
+        }
+        .shuru-group span{
+            font-size: 10px;
+            position: relative;
+            top: -3px;
+            color: #ffffff;
+        }
+        .shuru-group>.shuru-ok{
+            top: 0;
+            right: 0;
+        }
+        .shuru-group>.shuru-remove{
+            bottom: 0;
+            right: 0;
+            border-top: 1px solid white;
+        }
+        .yanseban{
+            border: 1px solid black;
+            position: relative;
+            box-shadow: 0 0 5px 0 black;
+            padding: 20px !important;
+        }  /*  色板表格  */
+        .yanseban td{
+            width: 30px;
+            height: 30px;
+            border: 10px solid white;
+        }
+        .yanseban tr td:nth-child(1){
+            border-left-width: 50px;
+            width: 50px;
+        }
+        .yanseban tr td:nth-last-child(1){
+            border-right-width: 50px;
+            width: 50px;
+        }
+        #bg-e{
+            width: 28px;
+            height: 28px;
+            border: 1px solid silver;
+            display: inline-block;
+            position: relative;
+            top: 10px;
+            left: 4px;
+        }  /*  色板实例  */
+        #bg{
+            border: 1px solid silver;
+            height: 28px;
+            width: 100px;
+            vertical-align: middle;
+            padding: 1px 0 1px 10px;
+        }  /*  色板输入框  */
+        #bg-t{
+            border: 1px solid silver;
+            font-size: 10px;
+            padding: 6px;
+            position: relative;
+            left: -5px;
+            color: black;
+        }  /*  色板按钮  */
+        .ziti{
+            float: left;
+            width: 0;
+            height: 30px;
+            border: 0;
+            background: black;
+            color: white;
+            text-align: center;
+        }
+        .ziti option{
+            width: 81px;
+            height: 30px;
+            background: white;
+            color: black;
+            padding-top: 5px;
+        }
+    </style>
+    <script type="text/javascript">
+        window.onload = function () {
+            var text1 = frames['fr1'].document;
+            text1.designMode = 'on';
+            var btns = document.getElementsByClassName('btn-group');
+            btns[0].onclick = function (e) {
+                var E = e || event;
+                var t = E.target || E.srcElement;
+                switch(t.id){
+                    case 'fs-1':
+                        t.nextSibling.nextSibling.style.width = '70px';
+                        t.nextSibling.nextSibling.style.transition = '1s';
+                        break;
+                    case 'fs-1-t':
+                        t.parentNode.parentNode.style.width = 0;
+                        text1.execCommand('fontsize',false, t.parentNode.previousSibling.previousSibling.value);
+                        t.parentNode.previousSibling.previousSibling.value = '';
+                        break;
+                    case 'fs-1-f':
+                        t.parentNode.parentNode.style.width = 0;
+                        break;
+                    case 'b-1':
+                        text1.execCommand('bold', false, null);
+                        break;
+                    case 'i-1':
+                        text1.execCommand('italic', false, null);
+                        break;
+                    case 'ins-1':
+                        text1.execCommand('underline', false, null);
+                        break;
+                    case 'bg-1':
+                        y.style.display = 'block';
+                        y.onclick = function(){
+                            this.style.display = 'none';
+                        };
+                        yb.onclick = function (ei) {
+                            y.style.display = 'block';
+                            var E = ei || event;
+                            E.cancelBubble = true;  //  取消事件冒泡，点击色板之外的区域将隐藏色板
+                        };
+                        document.getElementById('bg-t').onclick = function (ee) {
+                            text1.execCommand('backcolor', false, document.getElementById('bg').value);
+                            y.style.display = 'none';
+                            var E = ee || event;
+                            E.cancelBubble = true;
+                        };
+                        break;
+                    case 'fo-1':
+                        t.nextSibling.nextSibling.style.width = '100px';
+                        t.nextSibling.nextSibling.style.transition = '50ms';
+                            var ops = t.nextSibling.nextSibling.childNodes;
+                            for(var i=0;i<ops.length;i++){
+                                if(ops[i].value){
+                                    ops[i].onclick = function () {
+                                        this.parentNode.style.width = 0;
+                                        this.parentNode.style.transition = '10ms';
+                                        text1.execCommand('fontname', false, this.value);
+                                    }
+                                }
+                            }
+                        break;
+                    case 'fco-1':
+                        y.style.display = 'block';
+                        y.onclick = function(){
+                            this.style.display = 'none';
+                        };
+                        yb.onclick = function (ei) {
+                            y.style.display = 'block';
+                            var E = ei || event;
+                            E.cancelBubble = true;  //  取消事件冒泡，点击色板之外的区域将隐藏色板
+                        };
+                        document.getElementById('bg-t').onclick = function (ee) {
+                            text1.execCommand('forecolor', false, document.getElementById('bg').value);
+                            y.style.display = 'none';
+                            var E = ee || event;
+                            E.cancelBubble = true;
+                        };
+                        break;
+                    case 'fleft-1':
+                        text1.execCommand('justifyleft', false, null);
+                        break;
+                    case 'fcenter-1':
+                        text1.execCommand('justifycenter', false, null);
+                        break;
+                    case 'fright-1':
+                        text1.execCommand('justifyright', false, null);
+                        break;
+                    case 'fjus-1':
+                        text1.execCommand('justify', false, null);
+                        break;
+                }
+            };
+            //  以下是色板样式
+            var y = document.getElementsByClassName('yanse')[0];
+            var yb = y.firstChild.nextSibling;
+            y.style.width = window.innerWidth + 'px';
+            y.style.height = window.innerHeight + 'px';
+            y.style.background = 'rgba(0,0,0,0.3)';
+            y.style.zIndex = '998';
+            y.style.position = 'absolute';
+            window.onresize = function () {
+                y.style.width = window.innerWidth + 'px';
+                y.style.height = window.innerHeight + 'px';
+            };
+            yb.style.top = (window.innerHeight/2 - parseInt(yb.style.height)) + 'px';
+            //  以下是色板功能
+            var t = document.getElementsByClassName('yanseban')[0];
+            var tb = t.tBodies[0];
+            tb.onclick = function (e) {
+                var E = e || event;
+                var tar = E.target || E.srcElement;
+                document.getElementById('bg').value = tar.bgColor;
+                document.getElementById('bg-e').style.background = tar.bgColor;
+            }
+        }
+    </script>
+</head>
+<body>
+<div id="left">
+    <h1 align="center">文本编辑一</h1>
+    <blockquote>实现方式，iframe的designMode属性设置为'on'</blockquote>
+    <table class="table" style="width: 90%;margin: 0 auto">
+        <thead>
+        <tr>
+            <td style="padding: 1px">
+                <div class="btn-group btn-group-sm">
+                    <button id="fs-1" class="btn btn-default" title="字体大小">
+                        <span class="glyphicon glyphicon-text-size"></span>
+                    </button>
+                    <div class="shuru-group">
+                        <input type='text' class="shuru" placeholder="1~7"/>
+                        <div class="shuru-ok"><span id="fs-1-t" class="glyphicon glyphicon-ok"></span></div>
+                        <div class="shuru-remove"><span id="fs-1-f" class="glyphicon glyphicon-remove"></span></div>
+                    </div>  <!--  这里是输入组件  -->
+                    <button id="b-1" class="btn btn-default" title="粗体">
+                        <span class="glyphicon glyphicon-bold"></span>
+                    </button>
+                    <button id="i-1" class="btn btn-default" title="斜体">
+                        <span class="glyphicon glyphicon-italic"></span>
+                    </button>
+                    <button id="ins-1" class="btn btn-default" title="下划线">
+                        <span class="glyphicon glyphicon-minus"></span>
+                    </button>
+                    <button id="bg-1" class="btn btn-default" title="背景颜色">
+                        <span class="glyphicon glyphicon-text-background"></span>
+                    </button>
+                    <button id="fo-1" class="btn btn-default" title="字体">
+                        <span class="glyphicon glyphicon-font"></span>
+                    </button>
+                    <select class="ziti">
+                        <option value="Arial">Arial</option>
+                        <option value="微软雅黑">微软雅黑</option>
+                        <option value="楷体">楷体</option>
+                        <option value="宋体">宋体</option>
+                    </select>
+                    <button id="fco-1" class="btn btn-default" title="字体颜色">
+                        <span class="glyphicon glyphicon-text-color"></span>
+                    </button>
+                    <button id="fleft-1" class="btn btn-default" title="左对齐">
+                        <span class="glyphicon glyphicon-align-left"></span>
+                    </button>
+                    <button id="fcenter-1" class="btn btn-default" title="居中">
+                        <span class="glyphicon glyphicon-align-center"></span>
+                    </button>
+                    <button id="fright-1" class="btn btn-default" title="右对齐">
+                        <span class="glyphicon glyphicon-align-right"></span>
+                    </button>
+                </div>
+                <!--<button class="btn btn-primary" onclick="frames[0].window.print()">预览</button>-->
+            </td>
+        </tr>
+        </thead>
+        <tr>
+            <td>
+                <iframe name="fr1" id="fr1"></iframe>
+            </td>
+        </tr>
+    </table>
+</div>
+<div id="right">
+    <h1 align="center">文本编辑二</h1>
+    <blockquote>实现方式，使用contenteditable属性，可赋值给任意元素</blockquote>
+    <div class="btn-group">
+        <button id="fs1" class="btn btn-default">
+            <span class="glyphicon glyphicon-font"></span>
+        </button>
+        <button class="btn btn-default">
+            <span class="glyphicon glyphicon-bold"></span>
+        </button>
+        <button class="btn btn-default">
+            <span class="glyphicon glyphicon-italic"></span>
+        </button>
+        <button class="btn btn-default">
+            <span class="glyphicon glyphicon-text-height"></span>
+        </button>
+        <button class="btn btn-default">
+            <span class="glyphicon glyphicon-text-width"></span>
+        </button>
+        <button class="btn btn-default">
+            <span class="glyphicon glyphicon-align-left"></span>
+        </button>
+        <button class="btn btn-default">
+            <span class="glyphicon glyphicon-align-center"></span>
+        </button>
+        <button class="btn btn-default">
+            <span class="glyphicon glyphicon-align-right"></span>
+        </button>
+        <button class="btn btn-default">
+            <span class="glyphicon glyphicon-align-justify"></span>
+        </button>
+        <button class="btn btn-default">
+            <span class="glyphicon glyphicon-text-color"></span>
+        </button>
+    </div>
+    <div id="fr2" contenteditable></div>
+</div>
+<div class="yanse" style="display: none">
+    <table align="center" class='yanseban' style="height: 150px;z-index: 999">
+        <thead>
+        <tr style="height: 50px">
+            <td colspan="7" bgcolor="white" style="padding-left: 13px">
+                <div id="bg-e" style="border-right: 0"></div>
+                <input type="text" id="bg" style="border-right: 0;border-left: 0"/>
+                <button id="bg-t" style="border-left: 0">&nbsp;确认&nbsp;</button>
+            </td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td bgcolor="aqua"></td><td bgcolor="aquamarine"></td><td bgcolor="antiquewhite"></td><td bgcolor="palegoldenrod"></td>
+            <td bgcolor="black"></td><td bgcolor="blueviolet"></td><td bgcolor="blue"></td>
+        </tr>
+        <tr>
+            <td bgcolor="cadetblue"></td><td bgcolor="chartreuse"></td><td bgcolor="chocolate"></td><td bgcolor="palegreen"></td>
+            <td bgcolor="darkcyan"></td><td bgcolor="darkgoldenrod"></td><td bgcolor="darkmagenta"></td>
+        </tr>
+        <tr>
+            <td bgcolor="firebrick"></td><td bgcolor="floralwhite"></td><td bgcolor="forestgreen"></td><td bgcolor="orchid"></td>
+            <td bgcolor="gray"></td><td bgcolor="gold"></td><td bgcolor="green"></td>
+        </tr>
+        <tr>
+            <td bgcolor="hotpink"></td><td bgcolor="honeydew"></td><td bgcolor="blanchedalmond"></td><td bgcolor="olivedrab"></td>
+            <td bgcolor="ivory"></td><td bgcolor="indianred"></td><td bgcolor="indigo"></td>
+        </tr>
+        <tr>
+            <td bgcolor="lawngreen"></td><td bgcolor="lightblue"></td><td bgcolor="lightcoral"></td><td bgcolor="palevioletred"></td>
+            <td bgcolor="mediumturquoise"></td><td bgcolor="magenta"></td><td bgcolor="maroon"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

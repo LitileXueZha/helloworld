@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>html标签</title>
+    <base href="www.ningtaostudy.cn" target="_blank"/>
+    <!--<link rel="stylesheet" href="jquery+php/css/bootstrap.min.css"/>-->
+    <style>
+    </style>
+    <script type="text/javascript">
+        window.onload = function () {
+            var person = new Object();
+            setName(person);
+            alert(person.name);
+        };
+
+        function setName(obj) {
+            obj.name = 'Nicholas';
+            obj = new Object();
+            obj.name = 'Greg';
+            alert(obj.name);
+        }
+    </script>
+</head>
+<body>
+<br/>
+<abbr title="简单，实用">间用  </abbr><label title="简单、实用">  间用</label>
+<br/>
+<address href="#">这是一个address标签</address>
+<br/>
+<article>这是一个article标签</article>
+<br/>
+<aside>这是一个aside标签</aside>
+<br/>
+<p>&lt;base /&gt;标签位于头部，这里写没用 <a href="http://www.ningtaostudy.cn">我的站</a></p>
+<br/>
+<bdi> 这是个bdi标签 </bdi><bdo dir="rtl"> 这是个bdo标签 </bdo>
+<br/>
+<blockquote cite="localhost">这是个blockquote标签</blockquote>
+<br/>
+<table border="1" width="500">
+    <caption>这是一个caption标签，它必须在table里</caption>
+    <tr><td height="50px">1</td><td>2</td><td>3</td><td>4</td></tr>
+</table>
+<br/>
+<cite>这是一个cite标签</cite>
+<br/>
+<code>这是一个code标签，等宽渲染</code>
+<br/>
+<menu>
+    <command type="checkbox">这是一个command按钮</command>
+</menu>
+<br/>
+<del>这是一个del标签</del>
+<br/>
+<details open="open">这是一个details标签</details>
+<br/>
+<em>设施一个em标签，斜体，强调</em>
+<br/>
+<embed src="ajax/img/6.swf" type="swf" height="100">这是个embed标签</embed>
+<br/>
+<fieldset>
+    <legend>这是个legend标题</legend>
+    <p>这是个p标签，整个加起来是个fieldset，用来组织表单</p>
+</fieldset>
+<br/>
+<label>这是个iframe标签</label>
+<iframe height="300" width="100%" sandbox="allow-same-origin" src="我要报修.html"></iframe>
+<br/>
+<figure>
+    <figcaption>这是figcaption标题</figcaption>
+    <P>这是一个figure元素，</P>
+</figure>
+<br/>
+<footer>这是一个footer标签，一般放在尾处</footer>
+<br/>
+<header>这是一个header标签</header>
+<br/>
+<span>以下是个hr标签</span>
+<hr/>
+<br/>
+<i>这是一个i标签 </i><em> em标签强调</em>
+<br/>
+<label for="in1">这是一个color类型的,ie不支持</label><input id="in1" type="color"/>
+<br/>
+<label for="in2">这是个date类型的，</label><input id="in2" type="date" autocomplete="on" max="2016-11-10"/>
+<br/>
+<label for="in3">这是个datetime类型的，</label><input type="datetime" id="in3"/>
+<br/>
+<label for="in4">这是个。。。。pattern属性写个正则自动校验,h5新属性，ie不支持</label><input type="text" id="in4" pattern="/^\'http:([\s\S]+)\'$/"/>
+<br/>
+<ins cite="localhost">这是一个ins标签</ins>
+<br/>
+<kbd>这是一个kbd标签</kbd>
+<br/>
+<keygen>这是个keygen标签，加密，ie并不支持</keygen>
+<br/>
+<map>这是一个map标签，里面有一系列可点击的区域</map>
+<br/>
+<mark>这是一个mark标签，高亮，背景为黄色</mark>
+<br/>
+<menu>这是一个menu标签，所有浏览器都不支持</menu>
+<br/>
+<label>这是个meter标签,ie并不支持</label><meter value="5" high="10" low="1" max="10" min="1"></meter>
+<br/>
+<nav>这是一个nav标签，ie9以下不支持</nav>
+<br/>
+<noscript>这是个noscript标签，当浏览器禁用javascript时会显示</noscript>
+<br/>
+<object width="100%" height="100%"> 如果浏览器不支持的话
+    <param name="controls" value="true"/>
+    <param name="allowFullScreen" value="true">
+    <embed src="ajax/img/in.swf"></embed>
+</object>
+<br/>
+<ol type="i"  start="3">
+    <li>type属性指定标记类型</li>
+    <li>reversed="reversed\empty"倒序</li>
+    <li>start="3"起始标记符号,不能与倒序结合使用</li>
+</ol>
+<br/>
+<select>
+    <optgroup label="这是个optgroup标签，内容写在label属性里"></optgroup>
+    <option>1这是个option标签</option>
+    <option>2这是个option标签</option>
+    <option>3这是个option标签</option>
+</select>
+<br/>
+<pre>
+        这里是代码空间，
+    一个pre标签。。。。
+</pre>
+<br/>
+<progress max="100" value="43">这是个progress标签</progress>
+<br/>
+<q cite="localhost">这是一个q标签</q>
+<blockquote>这是个blockquote标签</blockquote>
+<br/>
+<ruby>
+    <!--ruby文本-->
+    <rp>这是一个rp标签，如果浏览器不支持的话</rp>
+    <rt>这是一个ruby标签下的rt标签，ruby注释文本</rt>
+</ruby>
+<br/>
+<s>这是一个s标签,这是无用</s>&nbsp;&nbsp;&nbsp;&nbsp;<del>这是一个del标签，这是删除</del>
+<br/>
+<section>这是一个section标签</section>
+<br/>
+<small>这是一个small标签</small>
+<br/>
+<video>
+    <source src="ajax/img/43.swf" />
+    <track src="" label="这是一个track标签">
+</video>
+<br/>
+<span>这是一个span标签</span>
+<br/>
+<strong>这是一个strong标签</strong>
+<br/>
+<label>这是一个<sub>sub标签</sub>&nbsp;&nbsp;&nbsp;&nbsp;氧气：O<sub>2</sub></label>
+<br/>
+<label>这是一个<sup>sup标签</sup>&nbsp;&nbsp;&nbsp;&nbsp;十的平方：10<sup>2</sup></label>
+<br/>
+<table align="center">
+    <caption>这是一个table</caption>
+    <thead><tr><th>这是一个thead</th></tr></thead>
+    <tbody><tr><td>这是一个tbody</td></tr></tbody>
+    <tfoot><tr><td>这是一个tfoot</td></tr></tfoot>
+</table>
+<br/>
+<time>这是一个time标签</time>
+<br/>
+<var>这是一个var标签</var>
+<br/>
+<p>这里有一个wbr标签,<wbr>ie<wbr>并不支持</p>
+<br/>
+<br/>
+<br/>
+<br/>
+</body>
+</html>

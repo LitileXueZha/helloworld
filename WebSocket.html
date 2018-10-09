@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>测试WebSocket API</title>
+    <script>
+      // 建立连接
+        function createConnection(){
+          var res = document.getElementById('res');
+          try{
+            ws = new WebSocket("ws://localhost/helloworld/WebSocket.php");
+            ws.onopen = function (e) {
+              var a = document.createElement('p');
+              a.innerHTML = "建立连接成功！当前状态：" +this.readyState;
+              res.appendChild(a);
+            };
+
+            ws.onmessage = function (e) {
+              var a = document.createElement('p');
+              p.innerHTML = "接收到数据：" +e.data;
+              res.appendChild(a);
+            };
+            
+            ws.onclose = function (e) {
+              var a = document.createElement('p');
+              a.innerHTML = "服务器断开连接！当前状态：" +this.readyState;
+              res.appendChild(a);
+            };
+            
+            ws.onerror = function (e) {
+              var a = document.createElement('p');
+              a.innerHTML = "WebSocket出现错误：" +e;
+              res.appendChild(a);
+              console.error("ws.onerror：", e);
+            };
+          } catch (e){
+            console.error(e);
+          }
+        }
+        
+        // 发送信息
+        function sendContent() {
+          try {
+            ws.send(document.getElementById('content').value);
+          } catch (e){
+            console.error(e);
+          }
+        }
+
+        // 查看连接状态
+        function showState() {
+          var res = document.getElementById('res');
+          var a = document.createElement('p');
+          a.innerHTML = "连接状态==================<b>"+ ws.readyState +"</b>>";
+          res.appendChild(a);
+        }
+    </script>
+</head>
+<body>
+<div class="container">
+    <h1 align="center">测试WebSocket</h1>
+    <textarea id="content" cols="50" rows="10" title="输入"></textarea>
+    <br>
+    <button onclick="createConnection()">建立连接</button>
+    <button onclick="sendContent()">发送信息</button>
+    <button onclick="showState()">查看连接状态</button>
+    <div id="res"></div>
+</div>
+</body>
+</html>

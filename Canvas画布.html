@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>canvas画布</title>
+    <script src="jquery+php/js/jquery-3.1.0.js"></script>
+    <style>
+        canvas{
+            border: 1px solid black;
+            /*padding: 1%;*/
+            background: none;
+        }
+    </style>
+    <script type="text/javascript">
+        window.onload = function () {
+            doCanvas1();
+            doCanvas2();
+            doCanvas3();
+            doCanvas4();
+            doCanvas5();
+            doCanvas6();
+            doCanvas7();
+            doCanvas8();
+            doCanvas9();
+            doCanvas10();
+            doCanvas11();
+        };
+        function doCanvas1() {
+            var ca1 = document.getElementById('c1');
+            var pen = ca1.getContext('2d');
+            pen.fillStyle = 'red';
+            pen.fillRect(50, 0, 50, 50);
+            pen.fillStyle = 'rgba(0,255,0,0.5)';
+            pen.fillRect(75, 25, 50, 50);
+            pen.clearRect(81.75, 31.75, 12.5, 12.5);
+
+            pen.lineWidth = 5;
+            pen.lineCap = 'round';
+            pen.lineJoin = 'bevel';
+
+            pen.strokeStyle = 'yellow';
+            pen.strokeRect(125, 0, 50, 50);
+            pen.strokeStyle = 'rgba(0,0,255,0.7)';
+            pen.strokeRect(150, 25, 50, 50);
+
+            var imgURI = ca1.toDataURL('image/png');
+//            console.log(imgURI);
+            var img = document.createElement('img');
+            img.src = imgURI;
+            document.body.appendChild(img);
+        }  //  绘制矩形
+        function doCanvas2() {
+            var c = document.getElementById('c2');
+            var pen = c.getContext('2d');
+            pen.beginPath();
+            pen.arc(150, 75, 75, 0, Math.PI*2, false);
+            pen.moveTo(220, 75);
+            pen.arc(150, 75, 70, 0, Math.PI*2, false);
+            pen.moveTo(150, 75);
+            pen.lineTo(150, 15);
+            pen.moveTo(150, 75);
+            pen.lineTo(200, 75);
+
+            pen.stroke();
+//            pen.closePath();
+            if(pen.isPointInPath(10, 75)){
+                alert(1);
+            }  //  isPointInPath()判断点是否在路径上
+        }  //  绘制路径，首先得beginPath，最后必须stroke()
+        function doCanvas3() {
+            var c = document.getElementById('c3');
+            var pen = c.getContext('2d');
+            pen.beginPath();
+            pen.restore();
+            pen.arc(150, 75, 75, 0, Math.PI*2, false);
+            pen.moveTo(220, 75);
+            pen.arc(150, 75, 70, 0, Math.PI*2, false);
+            pen.moveTo(150, 75);
+            pen.lineTo(150, 15);
+            pen.moveTo(150, 75);
+            pen.lineTo(200, 75);
+            pen.font = '10px bold Arial';
+            pen.textAlign = 'center';
+            pen.textBaseline = 'alphabetic';
+            pen.fillText('12', 150, 15);
+            pen.textAlign = 'start';
+            pen.fillText('12', 150, 35);
+            pen.textAlign = 'end';
+            pen.fillText('12', 150, 55);
+            pen.font = '40px bold Arial';
+            pen.textAlign = 'center';
+            pen.textBaseline = 'middle';
+            pen.save();
+            pen.strokeStyle = 'blue';
+            pen.strokeText('12', 150, 75);
+            console.log('头上一片青天：' + pen.measureText('头上一片青天') + pen.measureText('头上一片青天').width);
+            pen.stroke();
+
+        }  //  绘制文本,fillText
+        function doCanvas4() {
+            var c = document.getElementById('c4');
+            var pen = c.getContext('2d');
+            pen.beginPath();
+            pen.strokeStyle = 'red';
+
+            pen.save();
+            pen.strokeStyle = 'blue';
+            pen.arc(150, 75, 75, 0, Math.PI*2, false);
+            pen.stroke();
+            pen.restore();
+
+            pen.moveTo(220, 75);
+            pen.arc(150, 75, 70, 0, Math.PI*2, false);
+            pen.translate(150, 75);  //  这里原点已经改变
+            pen.rotate(1);           //  这里旋转1弧度
+            pen.moveTo(0, 0);
+            pen.lineTo(0, -50);
+            pen.moveTo(0, 0);
+            pen.lineTo(-60, 0);
+
+            pen.stroke();
+        }  //  2d变幻
+        function doCanvas5() {
+            var c=document.getElementById("c5");
+            var context=c.getContext("2d");
+            context.fillStyle="black";
+            context.beginPath();
+            context.arc(10,130,2,0,Math.PI*2,true);
+            context.arc(20,130,1,0,Math.PI*2,true);
+            context.arc(190,130,2,0,Math.PI*2,true);
+            context.arc(180,130,1,0,Math.PI*2,true);
+            context.closePath();
+            context.fill();
+//            c.onmouseover = function () {
+//                this.style.display = 'inline-block';
+//                this.style.opacity = 0;
+//                this.style.transition = '3s';
+//            };
+//            $('#c5').mouseover(function () {
+//                $(this).hide(5000);
+//            });
+        }  //  这里真是醉了
+        function doCanvas6() {
+            var img = document.getElementsByTagName('img')[0];
+            var c = document.getElementById('c6');
+            var pen = c.getContext('2d');
+            pen.drawImage(img, 0, 40);
+            pen.drawImage(img, 0, 0, 60, 20);
+            pen.drawImage(img, 10, 10, 200, 40, 100, 0, 60, 20);
+        }  //  将图像复制到画布
+        function doCanvas7() {
+            var c = document.getElementById('c7');
+            var pen = c.getContext('2d');
+            pen.shadowColor = 'rgba(0,0,0,0.4)';
+            pen.shadowBlur = 5;
+            pen.shadowOffsetX = 1;
+            pen.shadowOffsetY = 5;
+            pen.fillStyle = 'green';
+            pen.fillRect(10, 10, 100, 50);
+            pen.fillStyle = 'red';
+            pen.fillRect(10, 70, 100, 50);
+        }  //  阴影
+        function doCanvas8() {
+            var c = document.getElementById('c8');
+            var pen = c.getContext('2d');
+            pen.save();
+            pen.font = 'bold 12px 微软雅黑';
+            pen.textAlign = 'center';
+            pen.textBaseline = 'middle';
+            pen.shadowColor = 'rgba(0,0,0,0.4)';
+            pen.shadowBlur = 0;
+            pen.shadowOffsetX = 5;
+            pen.shadowOffsetY = 5;
+            pen.fillText('线性渐变', 80, 75);
+            pen.fillText('径向渐变', 220, 75);
+            pen.restore();
+            pen.save();
+            pen.fillStyle = 'green';
+            pen.fillRect(30, 10, 100, 50);
+            var gradient = pen.createLinearGradient(30, 90, 130, 140);  //  线性
+            gradient.addColorStop(0, 'red');
+            gradient.addColorStop(1, 'green');
+            pen.fillStyle = gradient;
+            pen.fillRect(30, 90, 100, 50);
+            pen.restore();
+            //  以上是线性渐变createLinearGradient()
+            pen.fillStyle = 'blue';
+            pen.fillRect(170, 10, 100, 50);
+            var g = pen.createRadialGradient(220, 115, 15, 240, 115, 50);
+            g.addColorStop(0, 'red');
+            g.addColorStop(1, 'blue');
+            pen.fillStyle = g;
+            pen.fillRect(170, 90, 100, 50);
+        }  //  渐变
+        function doCanvas9() {
+            var c = document.getElementById('c9');
+            var pen = c.getContext('2d');
+            var img = document.getElementsByTagName('img')[1];
+            pen.fillStyle = pen.createPattern(img, 'repeat');  //  模式
+            pen.fillRect(0, 20, 149, 150);
+            var imgDa = pen.getImageData(0, 0, 300, 150);
+            var imgData = imgDa.data;
+//            console.log(imgData['data']);
+            for(var i=0;i<imgData.length;i+=4){
+                var red = imgData[i];
+                var green = imgData[i+1];
+                var blue = imgData[i+2];
+                var a = Math.floor((red+green+blue)/3);
+                imgData[i] = a;
+                imgData[i+1] = a;
+                imgData[i+2] = a;
+            }
+            imgDa.data = imgData;
+            pen.putImageData(imgDa, 151, 0);
+            pen.font = '14px 楷体';
+            pen.textAlign = 'center';
+            pen.textBaseline = 'middle';
+            pen.fillText('模式普通复制', 75, 10);
+            pen.fillText('原始数据获取->灰阶', 225, 10);
+        }  //  模式，说得简单一点就是拷贝
+        function doCanvas10() {
+            var c = document.getElementById('c10');
+            var pen = c.getContext('2d');
+            pen.fillStyle = 'green';
+            pen.globalAlpha = 0.5;
+            pen.fillRect(10, 10, 100, 50);
+            pen.globalAlpha = 1;
+            pen.fillRect(10, 90, 100, 50);
+            pen.save();
+            pen.fillStyle = 'black';
+            pen.textAlign = 'center';
+            pen.textBaseline = 'middle';
+            pen.fillText('全局透明度globalAlpha', 60, 75);
+            pen.restore();
+
+            pen.fillRect(150, 10, 50, 50);
+            pen.globalCompositeOperation = 'destination-over';
+            pen.fillStyle = 'rgba(0,0,255,1)';
+            pen.fillRect(175, 35, 50, 50);
+            pen.fillStyle = 'red';
+            pen.globalCompositeOperation = 'lighter';
+            pen.fillRect(200, 60, 50, 50);
+        }  //  合成
+        function doCanvas11() {
+
+        }  //  WebGL，3d上下文；which i very like,3d yeah!
+    </script>
+</head>
+<body>
+<canvas id="c1" width="200" height="100"></canvas>
+<canvas id="c2"></canvas>
+<canvas id="c3"></canvas>
+<canvas id="c4"></canvas>
+<canvas id="c5"></canvas>
+<canvas id="c6"></canvas>
+<canvas id="c7"></canvas>
+<canvas id="c8"></canvas>
+<canvas id="c9"></canvas>
+<canvas id="c10"></canvas>
+<canvas id="c11"></canvas>
+<canvas id="c12"></canvas>
+<canvas id="c13"></canvas>
+<hr/>
+<img src="pen.png"/>
+<img src="favicon.ico" width="100"/>
+</body>
+</html>
